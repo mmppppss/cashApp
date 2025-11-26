@@ -1,6 +1,7 @@
 from views.home_view import HomeView
 from views.transactions_view import TransactionsView
 from views.add_transaction_view import AddTransactionView
+from views.register_view import RegisterView
 import flet as ft
 
 class Router:
@@ -13,6 +14,8 @@ class Router:
             view_instance = TransactionsView(page)
         elif route == "/add":
             view_instance = AddTransactionView(page)
+        elif route == "/register":
+            view_instance = RegisterView(page)
         else:  # route == "/"
             view_instance = HomeView(page)
 
