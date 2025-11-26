@@ -1,0 +1,9 @@
+PRIMARY = "#1E88E5"          # Azul principal (Material Blue 600)
+PRIMARY_LIGHT = "#E3F2FD"    # Fondo suave
+BACKGROUND = "#FFFFFF"
+TEXT_PRIMARY = "#0D47A1"     # Azul oscuro para títulos
+TEXT_SECONDARY = "#546E7A"   # Gris azulado
+ERROR = "#D32F2F"
+SUCCESS = "#2E7D32"
+BORDER_RADIUS = 12
+ELEVATION = 1
