@@ -2,10 +2,13 @@ import flet as ft
 from views.base_view import BaseView
 from core.theme import TEXT_PRIMARY, PRIMARY, BACKGROUND, TEXT_SECONDARY, BORDER_RADIUS, ERROR
 from core.utils import validate_email, show_snack, validate_password, validate_phone, validate_pin
+from .components.pin_input import PinInput
 
 class RegisterView(BaseView):
     def build(self):
         # Campos de formulario
+
+        self.pin_input = PinInput(self.page, length=4)
         self.name_field = ft.TextField(
             label="Nombre completo",
             width=300,
@@ -66,18 +69,7 @@ class RegisterView(BaseView):
             border_color=ft.Colors.TRANSPARENT,
             color=TEXT_PRIMARY
         )
-
-        self.pin_field = ft.TextField(
-            label="Pin de Acceso Rapido",
-            width=300,
-            text_size=14,
-            border_radius=BORDER_RADIUS,
-            filled=True,
-            bgcolor=ft.Colors.with_opacity(0.05, TEXT_PRIMARY),
-            border_color=ft.Colors.TRANSPARENT,
-            keyboard_type=ft.KeyboardType.NUMBER,
-            color=TEXT_PRIMARY
-        )
+        
         def on_register(e):
             if not validate_email(self.email_field.value):
                 self.email_field.focus()
@@ -104,7 +96,9 @@ class RegisterView(BaseView):
 
             # Aquí iría la lógica de registro (por ahora solo UI)
             self.vm.set_logged(True)
-            self.vm.show("home")  # ejemplo: ir a home tras registro
+
+        def on_login(e):
+            self.vm.show("login")  # ejemplo: ir a home tras registro
 
         register_button = ft.ElevatedButton(
             "Crear cuenta",
@@ -117,17 +111,27 @@ class RegisterView(BaseView):
             ),
             on_click=on_register,
         )
+        login_button = ft.ElevatedButton(
+            "Volver a Iniciar Sesion",
+            width=300,
+            height=50,
+            style=ft.ButtonStyle(
+                bgcolor=PRIMARY,
+                color=BACKGROUND,
+                shape=ft.RoundedRectangleBorder(radius=BORDER_RADIUS),
+            ),
+            on_click=on_login,
+        )
 
         return ft.Column(
             controls=[
-                ft.Container(height=60),
 
                 # Logo
                 ft.Container(
                     content=ft.Image(
-                        src="./media/wallet.png",
-                        width=100,
-                        height=100,
+                        src="wallet.svg",
+                        width=70,
+                        height=70,
                         fit=ft.ImageFit.CONTAIN,
                     ),
                     alignment=ft.alignment.center,
@@ -163,12 +167,22 @@ class RegisterView(BaseView):
                 self.password_repeat_field,
                 
                 ft.Container(height=12),
-                self.pin_field,
+                ft.Text(
+                    "Pin",
+                    size=14,
+                    color=TEXT_SECONDARY,
+                    text_align=ft.TextAlign.CENTER,
+                ),
+
+
+                self.pin_input.build(),
 
                 ft.Container(height=40),
                 register_button,
 
-                # Espacio inferior (barra no se muestra porque logged=False)
+                ft.Container(height=20),
+                login_button,
+
                 ft.Container(height=40),
             ],
             alignment=ft.MainAxisAlignment.START,
