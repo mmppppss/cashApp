@@ -13,7 +13,7 @@ def main(page: ft.Page):
     views = {
         "home": HomeView,
         "profile": ProfileView,
-        "register": RegisterView,
+        "registrar": RegisterView,
         "login": LoginView
     }
     vm = ViewManager(page, views)
