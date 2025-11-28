@@ -89,12 +89,13 @@ class RegisterView(BaseView):
                 show_snack(self.page, "Contraseña No Segura", success=False)
                 return
 
-            if not validate_pin(self.pin_field.value):
-                self.pin_field.focus()
+            if not validate_pin(self.pin_input.get_pin()):
                 show_snack(self.page, "Pin de Acceso Rapido No Valido", success=False)
                 return
 
             # Aquí iría la lógica de registro (por ahora solo UI)
+
+            self.vm.show("home")  # ejemplo: ir a home tras registro
             self.vm.set_logged(True)
 
         def on_login(e):
