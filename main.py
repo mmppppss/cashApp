@@ -7,6 +7,7 @@ from views.profile_view import ProfileView
 from views.register_view import RegisterView
 from views.login_view import LoginView
 from views.escaner_view import EscanerQRView
+from views.confirmar_pago_view import ConfirmarPagoView
 #from views.history_view import HistoryView  # crea esta si quieres
 
 def main(page: ft.Page):
@@ -16,7 +17,8 @@ def main(page: ft.Page):
         "profile": ProfileView,
         "register": RegisterView,
         "login": LoginView,
-        "escaner": EscanerQRView
+        "escaner": EscanerQRView,
+        "confirmar_pago": ConfirmarPagoView
     }
     vm = ViewManager(page, views)
     vm.show("login")
