@@ -32,8 +32,12 @@ class HomeView(BaseView):
                         vertical_alignment=ft.CrossAxisAlignment.CENTER,
                     ),
                 ),
+
+
                 ft.Container(
                     content=ft.ElevatedButton(
+                        on_click=lambda _: self.vm.show("escaner"),
+                        
                         content=ft.Row([
                             ft.Icon(ft.Icons.QR_CODE, size=28, color=BACKGROUND),
                             ft.Text("Transferencia Rápida", size=18, weight=ft.FontWeight.W_600, color=BACKGROUND),
