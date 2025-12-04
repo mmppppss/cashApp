@@ -7,7 +7,7 @@ class WalletAPI:
     """respuestas de una API llamadas HTTP."""
 
     def __init__(self) -> None:
-        self.url = "http://localhost:3000"
+        self.url = "http://3.86.0.53:3000/"
         self.jwt = None
         self.user = None
         self.history: Optional[List] = None
