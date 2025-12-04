@@ -1,6 +1,7 @@
 import flet as ft
 import cv2
 from views.base_view import BaseView
+from api.wallet_api import WalletAPI
 
 class EscanerQRView(BaseView):
     def __init__(self, page, vm):
@@ -39,7 +40,7 @@ class EscanerQRView(BaseView):
         cap.release()
         cv2.destroyAllWindows()
 
-    def build(self):
+    def build(self, api: WalletAPI):
         return ft.Column(
             controls=[
                 ft.Text("Escáner de Pagos", size=30, weight="bold"),
