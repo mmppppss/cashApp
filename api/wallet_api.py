@@ -13,7 +13,6 @@ class WalletAPI:
         self.history: Optional[List] = None
 
     def get_user(self):
-
         data = {
             "nombre": self.user.get("name"),
             "email": self.user.get("email"),
