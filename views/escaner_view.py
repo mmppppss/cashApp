@@ -1,7 +1,9 @@
 import flet as ft
 import cv2
+import json  
 from views.base_view import BaseView
-import core.data_store as store  # Importamos el buzón
+import core.data_store as store
+from api.wallet_api import WalletAPI
 
 class EscanerQRView(BaseView):
     def __init__(self, page, vm):
@@ -21,15 +23,30 @@ class EscanerQRView(BaseView):
             value, pts, qr_code = detector.detectAndDecode(frame)
 
             if value:
-                # Guardamos el dato en el buzon global
-                store.qr_data_leido = value
+                print(f"DEBUG: Dato crudo: {value}")
+                id_cuenta = value # Valor por defecto (si fuera texto plano)
+                
+                try:
+                    # Intentamos leer la estructura 
+                    datos = json.loads(value)
+                    if "cuenta" in datos:
+                        id_cuenta = str(datos["cuenta"])
+                        print(f"DEBUG: ID Cuenta extraído del JSON: {id_cuenta}")
+                except json.JSONDecodeError:
+                    print("DEBUG: QR sin JSON, usando texto plano")
+                
+                # Guardamos en el buzón (Tu lógica)
+                store.qr_data_leido = id_cuenta
                 
                 cap.release()
                 cv2.destroyAllWindows()
+                
+                # Navegamos
                 self.vm.show("confirmar_pago")
                 break
+                # -----------------------------------------------------
 
-            cv2.imshow("Escanear QR (Presiona 'q' para salir)", frame)
+            cv2.imshow("Escanear QR ('q' para salir)", frame)
 
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 self.resultado_txt.value = "Cancelado."
@@ -41,7 +58,8 @@ class EscanerQRView(BaseView):
             cap.release()
         cv2.destroyAllWindows()
 
-    def build(self):
+    # build recibe  api
+    def build(self, api: WalletAPI = None):
         return ft.Column(
             controls=[
                 ft.Text("Escáner de Pagos", size=30, weight="bold"),

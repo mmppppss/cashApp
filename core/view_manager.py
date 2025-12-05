@@ -1,3 +1,4 @@
+from api.wallet_api import WalletAPI
 import flet as ft
 from core.theme import BACKGROUND
 
@@ -7,7 +8,7 @@ class ViewManager:
     Gestiona la navegación y la barra inferior.
     """
 
-    def __init__(self, page: ft.Page, views_dict: dict, logged=False):
+    def __init__(self, page: ft.Page, views_dict: dict, api:WalletAPI, logged=False):
         self.page = page
         self.views = views_dict  # {"home": HomeView, "profile": ProfileView, ...}
         self.current_view_key = "home"
@@ -16,6 +17,7 @@ class ViewManager:
         self.page.window_width = 360
         self.page.window_height = 640
         self.logged = logged
+        self.api = api
     
     def set_logged(self, status: bool):
         """Cambia el estado de autenticación y actualiza la vista actual."""
@@ -37,7 +39,7 @@ class ViewManager:
             ft.Column(
                 controls=[
                     ft.SafeArea(
-                        view_instance.build(),
+                        view_instance.build(self.api),
                         expand=True,
                         bottom=False
                     ),

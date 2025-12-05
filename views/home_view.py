@@ -1,21 +1,24 @@
 # views/home_view.py
 
 import flet as ft
+from api.wallet_api import WalletAPI
 from views.base_view import BaseView
 from core.theme import *
 
 class HomeView(BaseView):
-    def build(self):
+    def build(self, api: WalletAPI):
+        user = api.get_user()
+
         return ft.Column(
             controls=[
                 ft.Container(height=40),
                 ft.Container(
-                    content=ft.Text("Hola, María", size=20, weight=ft.FontWeight.W_500, color=TEXT_PRIMARY),
+                    content=ft.Text(f"Hola, {user['nombre']}", size=20, weight=ft.FontWeight.W_500, color=TEXT_PRIMARY),
                     padding=ft.padding.only(left=24),
                     alignment=ft.alignment.center_left,
                 ),
                 ft.Container(
-                    content=ft.Text("$1,250.75", size=36, weight=ft.FontWeight.BOLD, color=TEXT_PRIMARY),
+                    content=ft.Text(f"{user['monto']} Bs.", size=36, weight=ft.FontWeight.BOLD, color=TEXT_PRIMARY),
                     padding=ft.padding.only(left=24, top=8),
                     alignment=ft.alignment.center_left,
                 ),

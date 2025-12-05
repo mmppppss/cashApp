@@ -1,3 +1,4 @@
+from api.wallet_api import WalletAPI
 import flet as ft
 from views.base_view import BaseView
 from core.theme import TEXT_PRIMARY, PRIMARY, BACKGROUND, TEXT_SECONDARY, BORDER_RADIUS
@@ -6,7 +7,7 @@ from core.utils import show_snack, validate_pin
 from .components.pin_input import PinInput
 
 class LoginView(BaseView):
-    def build(self):
+    def build(self, api: WalletAPI):
 
         self.pin_input = PinInput(self.page, length=4)
         self.phone_field = ft.TextField(
@@ -25,14 +26,19 @@ class LoginView(BaseView):
             self.vm.show("register") 
 
         def on_login(e):
+            mail = self.phone_field.value
+            pin = self.pin_input.get_pin()
             if not validate_pin(self.pin_input.get_pin()):
                 self.pin_input.clear()
                 show_snack(self.page, "Pin de Acceso Rapido No Valido", success=False)
                 return
+            logged = api.login(mail, None, pin)
+            if logged:
+               self.vm.set_logged(True)
+               self.vm.show("home")
+            else:
+                show_snack(self.page, "Error en las credenciales")
 
-            # Aquí iría la lógica de login (por ahora solo UI)
-            self.vm.set_logged(True)
-            self.vm.show("home") 
 
         register_button = ft.ElevatedButton(
             "Crear cuenta",
