@@ -35,8 +35,7 @@ class ConfirmarPagoView(BaseView):
 
         # 2. CONEXIÓN REAL CON EL SERVIDOR (BACKEND)
         try:
-            # Preparamos los datos como los pidió Pedro
-            # Nota: Convertimos a int y float porque el servidor espera números, no texto
+          
             datos_pago = {
                 "id_cuenta_destino": int(usuario),
                 "monto": float(monto_str)
@@ -51,7 +50,7 @@ class ConfirmarPagoView(BaseView):
                 "Content-Type": "application/json"
             }
             
-            # ¡ENVIAMOS EL DINERO! 🚀
+            # ¡ENVIAMOS EL DINERO! 
             response = requests.post(url, json=datos_pago, headers=headers)
             
             # Verificamos si salió bien
@@ -65,11 +64,11 @@ class ConfirmarPagoView(BaseView):
                 self.page.snack_bar.open = True
                 self.page.update()
                 
-                # Volver al Home (Esto recargará el saldo automáticamente)
+                # Volver al Home
                 self.vm.show("home")
                 
             else:
-                # Si el servidor dice que no (ej: Saldo insuficiente)
+                
                 print(f"ERROR SERVIDOR: {response.text}")
                 self.page.snack_bar = ft.SnackBar(
                     ft.Text(f"Error: {response.text}"),
@@ -87,7 +86,7 @@ class ConfirmarPagoView(BaseView):
     def cancelar_accion(self, e):
         self.vm.show("home")
 
-    # Recibimos la API real de Pedro aquí
+    # Recibimos la API 
     def build(self, api=None):
         # Guardamos la API para usarla en el botón
         self.api = api
@@ -103,7 +102,7 @@ class ConfirmarPagoView(BaseView):
                 self.monto_field,
                 ft.Container(height=30),
                 ft.ElevatedButton(
-                    "CONFIRMAR PAGO REAL", # Le cambié el nombre para que sepas que es el nuevo
+                    "CONFIRMAR PAGO REAL", 
                     bgcolor="green",
                     color="white",
                     width=250,

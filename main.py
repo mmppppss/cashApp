@@ -11,7 +11,7 @@ from views.history_view import HistoryView
 from api.wallet_api import WalletAPI
 
 def main(page: ft.Page):
-    # INICIALIZACIÓN DE API (Agregado por Pedro)
+   
     api = WalletAPI()
     
     views = {
@@ -20,13 +20,10 @@ def main(page: ft.Page):
         "register": RegisterView,
         "login": LoginView,
         "escaner": EscanerQRView,
-        # FUSIONADO: Agregamos ambas rutas al diccionario
         "confirmar_pago": ConfirmarPagoView,
         "history": HistoryView
     }
-    
-    # IMPORTANTE: Pedro cambió el ViewManager para recibir 'api'.
-    # Mantenemos ese cambio para no romper el login.
+
     vm = ViewManager(page, views, api)
     vm.show("login")
 
